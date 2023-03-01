@@ -1,6 +1,6 @@
 from imports import *
 
-def recall_objective(trial, data:pd.DataFrame, target_columns:str, params:dict, model):
+def recall_objective(trial, data:pd.DataFrame, target_columns:str, params:dict, model)->recall_score:
     data = data.drop(target, axis = 1)
     target = data[target]
     train_x, valid_x, train_y, valid_y = train_test_split(data, target, test_size=0.33, random_state=42)
@@ -11,7 +11,7 @@ def recall_objective(trial, data:pd.DataFrame, target_columns:str, params:dict, 
     recall = recall_score(valid_y, y_pred)
     return recall
 
-def f1_objective(trial, data:pd.DataFrame, target_columns:str, params:dict, model):
+def f1_objective(trial, data:pd.DataFrame, target_columns:str, params:dict, model)->f1_score:
     data = data.drop(target, axis = 1)
     target = data[target]
     train_x, valid_x, train_y, valid_y = train_test_split(data, target, test_size=0.33, random_state=42)
