@@ -1,6 +1,17 @@
 from imports import *
 
 def metrics(model, real_target, predicted_target) -> pd.DataFrame:
+    """
+    An metric function using r2, mean absolute error, mean absolute percentage error, % Of Predictions With Error < 5, 10, 15 and 30 values.
+    param model: sklean model
+        'model param is the machine learning algorithm that was used for our fitting
+    :param real_target: np.array
+        the real_target param is our target column of real data
+    param predicted_target: np.array
+        the predicted_target param is our prediction  of target column 
+    return
+        a dataframe with all metrics values above
+    """
     metrics_dict = dict()
     metrics_dict['Model'] = [model,]
     metrics_dict['R2'] = [r2_score(real_target, predicted_target),]
