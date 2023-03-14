@@ -1,6 +1,7 @@
 import pandas as pd 
 import numpy as np
 import matplotlib.pyplot as plt
+from typing import Union, Literal
 import seaborn as sns
 import warnings
 from matplotlib.ticker import PercentFormatter
