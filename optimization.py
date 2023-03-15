@@ -20,7 +20,7 @@ class ClassifierOptimizer:
         self.__params = params
     
 
-    def recall_objective(self, trial) -> float:
+    def recall_score_objective(self, trial) -> float:
         """
         An Optimization function using recall as metric value
         :param **params: dict 
@@ -101,7 +101,7 @@ class ClassifierOptimizer:
         if metric == "f1":
             study.optimize(lambda trial:self.f1_score_objective(trial), n_trials=n_trials, timeout=timeout)
         elif metric == 'recall':
-            study.optimize(lambda trial:self.recall_objective(trial), n_trials=n_trials, timeout=timeout)
+            study.optimize(lambda trial:self.recall_score_objective(trial), n_trials=n_trials, timeout=timeout)
         elif metric == 'precision':
             study.optimize(lambda trial:self.precision_score_objective(trial), n_trials=n_trials, timeout=timeout)
         elif metric == 'accuracy':
