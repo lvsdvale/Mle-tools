@@ -214,7 +214,7 @@ return:
 <h1>Optimization</h1>
 
 <h2>optimization.ClassifierOptimizer</h2>
-<p>class ClassifierOptimizar (data:pd.DataFrame, target_column:str, models:list)
+<p>class ClassifierOptimizer (data:pd.DataFrame, target_column:str, models:list)
 
 this class is used to optimize a classification model, using optuna, the methods are made as objectives of optuna, to optimize the model.
 
@@ -243,6 +243,8 @@ Parameters:
     precision_score_objective(trial:optuna.trial)
 
     accuracy_score_objective(trial:optuna.trial)
+
+    optimize(metric:Literal['f1', 'recall', 'precision', 'accuracy'], direction:Literal['minimize', 'maximize'], n_trials:int, timeout:int)
 </p>
 
 <h2>optimization.ClassifierOptimizer.f1_score_objective</h2>
@@ -291,12 +293,162 @@ return:
 <p>
 optimization.ClassifierOptimizer.accuracy_score_objective(trial)
 
-this function uses the class data, target and optuna suggested params to train the model and than return an f1 score. 
+this function uses the class data, target and optuna suggested params to train the model and than return an accuracy score. 
 Parameters:
 
     trial: optuna.trial
         this is an optuna necessary param for optimization
 
 return:
-    f1 score float value.
+    accuracy score float value.
+</p>
+
+<h2>optimization.ClassifierOptimizer.optimize</h2>
+<p>
+optimization.ClassifierOptimizer.optimize(metric:Literal['f1', 'recall', 'precision', 'accuracy'], direction:Literal['minimize', 'maximize'], n_trials:int, timeout:int)
+
+this function uses class functions as metric and direction, maximize to maximize your metric and minimize to minimize your metric.  
+Parameters:
+
+    metric:Literal['f1', 'recall', 'precision', 'accuracy']
+        metric param is used to choose the metric.
+    
+    direction:Literal['minimize', 'maximize']
+        param used to maximize or minimize to your metric during the optimization.
+
+    n_trials:int
+        number of trials that optuna will try to optimize the model.
+        
+    timeout:int
+        max time in seconds that optuna will have to optimize the model
+
+return:
+    None    
+</p>
+
+<h2>optimization.RegressorOptimizer</h2>
+<p>class RegressorOptimizer (data:pd.DataFrame, target_column:str, models:list)
+
+this class is used to optimize a classification model, using optuna, the methods are made as objectives of optuna, to optimize the model.
+
+Parameters:
+
+    data:DataFrame
+        data that will be used to train and validate our models.
+
+    Target:str
+        the target column in data.
+    
+    model: scikit learning model
+        Machine learning model will be optimize.
+
+    params:dict
+        the params dict param is the dict with the hyperparameters of our model, this params <b>must</b> be an optuna dict with the trials to make. 
+</p>
+
+<h3>Methods</h3>
+<p>
+
+    r2_score_objective(trial:optuna.trial)
+
+    adjusted_r2_score_objective(trial:optuna.trial)
+
+    mean_absolute_error_objective(trial:optuna.trial)
+
+    mean_absolute_percentage_error_objective(trial:optuna.trial)
+
+    mean_squared_error_objective(trial:optuna.trial)
+</p>
+
+<h2>optimization.RegressorOptimizer.r2_score_objective</h2>
+<p>
+optimization.RegressorOptimizer.r2_score_objective(trial)
+
+this function uses the class data, target and optuna suggested params to train the model and than return r2 score. 
+Parameters:
+
+    trial: optuna.trial
+        this is an optuna necessary param for optimization
+
+return:
+    r2 score float value.
+</p>
+
+<h2>optimization.RegressorOptimizer.adjusted_r2_score_objective</h2>
+<p>
+optimization.RegressorOptimizer.adjusted_r2_score_objective(trial)
+
+this function uses the class data, target and optuna suggested params to train the model and than return r2 score. 
+Parameters:
+
+    trial: optuna.trial
+        this is an optuna necessary param for optimization
+
+return:
+    adjusted r2 score float value.
+</p>
+
+<h2>optimization.RegressorOptimizer.mean_absolute_error_objective</h2>
+<p>
+optimization.RegressorOptimizer.mean_absolute_error_objective(trial)
+
+this function uses the class data, target and optuna suggested params to train the model and than return mean_absolute_error. 
+Parameters:
+
+    trial: optuna.trial
+        this is an optuna necessary param for optimization
+
+return:
+    mean_absolute_error float value.
+</p>
+
+<h2>optimization.RegressorOptimizer.mean_percentage_absolute_error_objective</h2>
+<p>
+optimization.RegressorOptimizer.mean_percentage_absolute_error_objective(trial)
+
+this function uses the class data, target and optuna suggested params to train the model and than return mean absolute percentage error. 
+Parameters:
+
+    trial: optuna.trial
+        this is an optuna necessary param for optimization
+
+return:
+    mean absolute percentage error float value.
+</p>
+
+<h2>optimization.RegressorOptimizer.mean_squared_error_objective</h2>
+<p>
+optimization.RegressorOptimizer.mean_squared_error_objective(trial)
+
+this function uses the class data, target and optuna suggested params to train the model and than return mean squared error. 
+Parameters:
+
+    trial: optuna.trial
+        this is an optuna necessary param for optimization
+
+return:
+    mean squared error float value.
+</p>
+
+<h2>optimization.RegressorOptimizer.optimize</h2>
+<p>
+optimization.RegressorOptimizer.optimize(metric:Literal['adjusted_r2', 'r2', 'MAE','MAPE', 'MSE'], direction:Literal['minimize', 'maximize'], n_trials:int, timeout:int)
+
+this function uses class functions as metric and direction, maximize to maximize your metric and minimize to minimize your metric.  
+Parameters:
+
+    metric:Literal['adjusted_r2', 'r2', 'MAE','MAPE', 'MSE']
+        metric param is used to choose the metric.
+    
+    direction:Literal['minimize', 'maximize']
+        param used to maximize or minimize to your metric during the optimization.
+
+    n_trials:int
+        number of trials that optuna will try to optimize the model.
+        
+    timeout:int
+        max time in seconds that optuna will have to optimize the model
+
+return:
+    None    
 </p>
