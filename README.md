@@ -14,6 +14,9 @@
 
 
 <h1>Documentation</h1>
+
+<h1>Evaluation</h1>
+
 <h2>Evaluation.ClassifierEvaluator</h2>
 <p>class ClassifierEvaluator (data:pd.DataFrame, target_column:str, models:list)
 
@@ -206,4 +209,94 @@ Parameters:
 
 return:
     Pandas Dataframe.
+</p>
+
+<h1>Optimization</h1>
+
+<h2>optimization.ClassifierOptimizer</h2>
+<p>class ClassifierOptimizar (data:pd.DataFrame, target_column:str, models:list)
+
+this class is used to optimize a classification model, using optuna, the methods are made as objectives of optuna, to optimize the model.
+
+Parameters:
+
+    data:DataFrame
+        data that will be used to train and validate our models.
+
+    Target:str
+        the target column in data.
+    
+    model: scikit learning model
+        Machine learning model will be optimize.
+
+    params:dict
+        the params dict param is the dict with the hyperparameters of our model, this params <b>must</b> be an optuna dict with the trials to make. 
+</p>
+
+<h3>Methods</h3>
+<p>
+
+    f1_score_objective(trial:optuna.trial)
+
+    recall_score_objective(trial:optuna.trial)
+
+    precision_score_objective(trial:optuna.trial)
+
+    accuracy_score_objective(trial:optuna.trial)
+</p>
+
+<h2>optimization.ClassifierOptimizer.f1_score_objective</h2>
+<p>
+optimization.ClassifierOptimizer.f1_score_objective(trial)
+
+this function uses the class data, target and optuna suggested params to train the model and than return  f1 score. 
+Parameters:
+
+    trial: optuna.trial
+        this is an optuna necessary param for optimization
+
+return:
+    f1 score float value.
+</p>
+
+<h2>optimization.ClassifierOptimizer.recall_score_objective</h2>
+<p>
+optimization.ClassifierOptimizer.recall_score_objective(trial)
+
+this function uses the class data, target and optuna suggested params to train the model and than return recall score. 
+Parameters:
+
+    trial: optuna.trial
+        this is an optuna necessary param for optimization
+
+return:
+    recall score float value.
+</p>
+
+<h2>optimization.ClassifierOptimizer.precision_score_objective</h2>
+<p>
+optimization.ClassifierOptimizer.precision_score_objective(trial)
+
+this function uses the class data, target and optuna suggested params to train the model and than return recall score. 
+Parameters:
+
+    trial: optuna.trial
+        this is an optuna necessary param for optimization
+
+return:
+    precision score float value.
+</p>
+
+<h2>optimization.ClassifierOptimizer.accuracy_score_objective</h2>
+<p>
+optimization.ClassifierOptimizer.accuracy_score_objective(trial)
+
+this function uses the class data, target and optuna suggested params to train the model and than return an f1 score. 
+Parameters:
+
+    trial: optuna.trial
+        this is an optuna necessary param for optimization
+
+return:
+    f1 score float value.
 </p>
