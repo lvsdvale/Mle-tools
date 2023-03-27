@@ -32,13 +32,14 @@ Parameters:
 
 <h3>Methods</h3>
 <p>
-    *f1_score_evaluation(n_splits:int)
-    
-    *recall_score_evaluation(n_splits:int)
 
-    *precision_score_evaluation(n_splits:int)
+    f1_score_evaluation(n_splits:int)
 
-    *accuracy_score_evaluation(n_split:int)
+    recall_score_evaluation(n_splits:int)
+
+    precision_score_evaluation(n_splits:int)
+
+    accuracy_score_evaluation(n_split:int)
 </p>
 
 <h2>Evaluation.ClassifierEvaluator.f1_score_evaluation</h2>
