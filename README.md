@@ -42,8 +42,10 @@ Parameters:
 <p>
 this function uses the class data, kfold and f1 score to return a dataframe with f1 score mean of all the models trained. 
 Parameters:
+
     n_splits:int
         kfold n_splits
+
 return:
     Pandas Dataframe.
 </p>
@@ -52,8 +54,10 @@ return:
 <p>
 this function uses the class data, kfold and recall score to return a dataframe with recall score mean of all the models trained. 
 Parameters:
+
     n_splits:int
         kfold n_splits
+
 return:
     Pandas Dataframe.
 </p>
@@ -62,8 +66,10 @@ return:
 <p>
 this function uses the class data, kfold and precision score to return a dataframe with precion score mean of all the models trained. 
 Parameters:
+
     n_splits:int
         kfold n_splits
+
 return:
     Pandas Dataframe.
 </p>
@@ -72,8 +78,10 @@ return:
 <p>
 this function uses the class data, kfold and Acurracy score to return a dataframe with Acurracy score mean of all the models trained. 
 Parameters:
+
     n_splits:int
         kfold n_splits
+        
 return:
     Pandas Dataframe.
 </p>
