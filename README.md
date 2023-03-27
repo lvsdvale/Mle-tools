@@ -16,9 +16,10 @@
 <h2>Evaluation.ClassifierEvaluator</h2>
 <p>class ClassifierEvaluator (data:pd.DataFrame, target_column:str, models:list)
 
-this class has many methods that uses kfold and all the models that you want to compare and give you a dataframe with the mean of the metric tha you use 
+this class has many methods that uses kfold and all the models that you want to compare and give you a dataframe with the mean of the metric tha you use. 
 
 Parameters:
+
     data:DataFrame
         data that will be used to train and validate our models
 
