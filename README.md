@@ -32,10 +32,13 @@ Parameters:
 
 <h3>Methods</h3>
 <p>
-    f1_score_evaluation(n_splits:int)
-    recall_score_evaluation(n_splits:int)
-    precision_score_evaluation(n_splits:int)
-    accuracy_score_evaluation(n_split:int)
+    *f1_score_evaluation(n_splits:int)
+    
+    *recall_score_evaluation(n_splits:int)
+
+    *precision_score_evaluation(n_splits:int)
+
+    *accuracy_score_evaluation(n_split:int)
 </p>
 
 <h2>Evaluation.ClassifierEvaluator.f1_score_evaluation</h2>
@@ -53,6 +56,7 @@ return:
 <h2>Evaluation.ClassifierEvaluator.recall_score_evaluation</h2>
 <p>
 this function uses the class data, kfold and recall score to return a dataframe with recall score mean of all the models trained. 
+
 Parameters:
 
     n_splits:int
@@ -64,7 +68,8 @@ return:
 
 <h2>Evaluation.ClassifierEvaluator.precision_score_evaluation</h2>
 <p>
-this function uses the class data, kfold and precision score to return a dataframe with precion score mean of all the models trained. 
+this function uses the class data, kfold and precision score to return a dataframe with precion score mean of all the models trained.
+
 Parameters:
 
     n_splits:int
@@ -76,12 +81,13 @@ return:
 
 <h2>Evaluation.ClassifierEvaluator.Acurracy_score_evaluation</h2>
 <p>
-this function uses the class data, kfold and Acurracy score to return a dataframe with Acurracy score mean of all the models trained. 
+this function uses the class data, kfold and Acurracy score to return a dataframe with Acurracy score mean of all the models trained.
+
 Parameters:
 
     n_splits:int
         kfold n_splits
-        
+
 return:
     Pandas Dataframe.
 </p>
