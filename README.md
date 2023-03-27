@@ -18,7 +18,7 @@
 
 this class has many methods that uses kfold and all the models that you want to compare and give you a dataframe with the mean of the metric tha you use 
 
-Parameters
+Parameters:
     data:DataFrame
         data that will be used to train and validate our models
 
@@ -40,7 +40,7 @@ Parameters
 <h2>Evaluation.ClassifierEvaluator.f1_score_evaluation</h2>
 <p>
 this function uses the class data, kfold and f1 score to return a dataframe with f1 score mean of all the models trained. 
-Parameters
+Parameters:
     n_splits:int
         kfold n_splits
 return:
@@ -50,7 +50,7 @@ return:
 <h2>Evaluation.ClassifierEvaluator.recall_score_evaluation</h2>
 <p>
 this function uses the class data, kfold and recall score to return a dataframe with recall score mean of all the models trained. 
-Parameters
+Parameters:
     n_splits:int
         kfold n_splits
 return:
@@ -60,7 +60,7 @@ return:
 <h2>Evaluation.ClassifierEvaluator.precision_score_evaluation</h2>
 <p>
 this function uses the class data, kfold and precision score to return a dataframe with precion score mean of all the models trained. 
-Parameters
+Parameters:
     n_splits:int
         kfold n_splits
 return:
@@ -70,7 +70,7 @@ return:
 <h2>Evaluation.ClassifierEvaluator.Acurracy_score_evaluation</h2>
 <p>
 this function uses the class data, kfold and Acurracy score to return a dataframe with Acurracy score mean of all the models trained. 
-Parameters
+Parameters:
     n_splits:int
         kfold n_splits
 return:
