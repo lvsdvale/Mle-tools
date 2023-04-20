@@ -3,9 +3,9 @@ from utils import *
 
 class ClassifierEvaluator:
     def __init__(self, data:pd.DataFrame, target_column:str, models:list):
-        self.___data = data
+        self.__data = data
         self.__target_columns = target_column
-        self__models = models
+        self.__models = models
         
     def f1_score_evaluation(self, n_splits:int) -> pd.DataFrame:
         """
@@ -22,18 +22,26 @@ class ClassifierEvaluator:
         models = self.__models
         x = data.drop(target_column, axis=1)
         y = data[target_column]
-        kfold = KFold(n_splits=n_splits)
         list_of_series = list()
-        for model in models:
-            scores = list()
-            for train_index, test_index in kfold.split(x):
-                x_train, x_test = x.iloc[train_index], x.iloc[test_index]
-                y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+        if n_splits !=0:
+            kfold = KFold(n_splits=n_splits)
+            for model in models:
+                scores = list()
+                for train_index, test_index in kfold.split(x):
+                    x_train, x_test = x.iloc[train_index], x.iloc[test_index]
+                    y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+                    model.fit(x_train, y_train)
+                    y_pred = model.predict(x_test)
+                    scores.append(f1_score(y_test, y_pred))
+                score = np.mean(scores)
+                list_of_series.append(pd.Series([model ,score], index=['Model','f1 Score']))
+        else:
+            x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=42)
+            for model in models:
                 model.fit(x_train, y_train)
                 y_pred = model.predict(x_test)
-                scores.append(f1_score(y_test, y_pred))
-            score = np.mean(scores)
-            list_of_series.append(pd.Series([model ,score], index=['Model','f1 Score']))
+                score = f1_score(y_test, y_pred)
+                list_of_series.append(pd.Series([model ,score], index=['Model','f1 Score']))
         df_models = pd.DataFrame(list_of_series, columns = ['Model','f1 Score'])
         return df_models
     
@@ -52,18 +60,26 @@ class ClassifierEvaluator:
         models = self.__models
         x = data.drop(target_column, axis=1)
         y = data[target_column]
-        kfold = KFold(n_splits=n_splits)
         list_of_series = list()
-        for model in models:
-            scores = list()
-            for train_index, test_index in kfold.split(x):
-                x_train, x_test = x.iloc[train_index], x.iloc[test_index]
-                y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+        if n_splits !=0:
+            kfold = KFold(n_splits=n_splits)
+            for model in models:
+                scores = list()
+                for train_index, test_index in kfold.split(x):
+                    x_train, x_test = x.iloc[train_index], x.iloc[test_index]
+                    y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+                    model.fit(x_train, y_train)
+                    y_pred = model.predict(x_test)
+                    scores.append(recall_score(y_test, y_pred))
+                score = np.mean(scores)
+                list_of_series.append(pd.Series([model ,score], index=['Model','recall Score']))
+        else:
+            x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=42)
+            for model in models:
                 model.fit(x_train, y_train)
                 y_pred = model.predict(x_test)
-                scores.append(recall_score(y_test, y_pred))
-            score = np.mean(scores)
-            list_of_series.append(pd.Series([model ,score], index=['Model','recall Score']))
+                score = recall_score(y_test, y_pred)
+                list_of_series.append(pd.Series([model ,score], index=['Model','recall Score']))
         df_models = pd.DataFrame(list_of_series, columns = ['Model','recall Score'])
         return df_models
     
@@ -82,18 +98,26 @@ class ClassifierEvaluator:
         models = self.__models
         x = data.drop(target_column, axis=1)
         y = data[target_column]
-        kfold = KFold(n_splits=n_splits)
         list_of_series = list()
-        for model in models:
-            scores = list()
-            for train_index, test_index in kfold.split(x):
-                x_train, x_test = x.iloc[train_index], x.iloc[test_index]
-                y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+        if n_splits !=0:
+            kfold = KFold(n_splits=n_splits)
+            for model in models:
+                scores = list()
+                for train_index, test_index in kfold.split(x):
+                    x_train, x_test = x.iloc[train_index], x.iloc[test_index]
+                    y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+                    model.fit(x_train, y_train)
+                    y_pred = model.predict(x_test)
+                    scores.append(precision_score(y_test, y_pred))
+                score = np.mean(scores)
+                list_of_series.append(pd.Series([model ,score], index=['Model','precision Score']))
+        else:
+            x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=42)
+            for model in models:
                 model.fit(x_train, y_train)
                 y_pred = model.predict(x_test)
-                scores.append(precision_score(y_test, y_pred))
-            score = np.mean(scores)
-            list_of_series.append(pd.Series([model ,score], index=['Model','precision Score']))
+                score = precision_score(y_test, y_pred)
+                list_of_series.append(pd.Series([model ,score], index=['Model','precision Score']))
         df_models = pd.DataFrame(list_of_series, columns = ['Model','precision Score'])
         return df_models
     
@@ -112,18 +136,26 @@ class ClassifierEvaluator:
         models = self.__models
         x = data.drop(target_column, axis=1)
         y = data[target_column]
-        kfold = KFold(n_splits=n_splits)
         list_of_series = list()
-        for model in models:
-            scores = list()
-            for train_index, test_index in kfold.split(x):
-                x_train, x_test = x.iloc[train_index], x.iloc[test_index]
-                y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+        if n_splits !=0:
+            kfold = KFold(n_splits=n_splits)
+            for model in models:
+                scores = list()
+                for train_index, test_index in kfold.split(x):
+                    x_train, x_test = x.iloc[train_index], x.iloc[test_index]
+                    y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+                    model.fit(x_train, y_train)
+                    y_pred = model.predict(x_test)
+                    scores.append(accuracy_score(y_test, y_pred))
+                score = np.mean(scores)
+                list_of_series.append(pd.Series([model ,score], index=['Model','accuracy Score']))
+        else:
+            x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=42)
+            for model in models:
                 model.fit(x_train, y_train)
                 y_pred = model.predict(x_test)
-                scores.append(accuracy_score(y_test, y_pred))
-            score = np.mean(scores)
-            list_of_series.append(pd.Series([model ,score], index=['Model','accuracy Score']))
+                score = accuracy_score(y_test, y_pred)
+                list_of_series.append(pd.Series([model ,score], index=['Model','accuracy Score']))
         df_models = pd.DataFrame(list_of_series, columns = ['Model','accuracy Score'])
         return df_models
 
