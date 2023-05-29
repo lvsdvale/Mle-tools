@@ -7,7 +7,7 @@ class ClassifierEvaluator:
         self.__target_columns = target_column
         self.__models = models
         
-    def f1_score_evaluation(self, n_splits:int=1) -> pd.DataFrame:
+    def f1_score_evaluation(self, n_splits:int=0) -> pd.DataFrame:
         """
         An evaluation function using f1 as metric value
 
@@ -45,7 +45,7 @@ class ClassifierEvaluator:
         df_models = pd.DataFrame(list_of_series, columns = ['Model','f1 Score'])
         return df_models
     
-    def recall_score_evaluation(self, n_splits:int=1) -> pd.DataFrame:
+    def recall_score_evaluation(self, n_splits:int=0) -> pd.DataFrame:
         """
         An evaluation function using recall as metric value
 
@@ -83,7 +83,7 @@ class ClassifierEvaluator:
         df_models = pd.DataFrame(list_of_series, columns = ['Model','recall Score'])
         return df_models
     
-    def precision_score_evaluation(self, n_splits:int=1) -> pd.DataFrame:
+    def precision_score_evaluation(self, n_splits:int=0) -> pd.DataFrame:
         """
         An evaluation function using precision as metric value
 
@@ -121,7 +121,7 @@ class ClassifierEvaluator:
         df_models = pd.DataFrame(list_of_series, columns = ['Model','precision Score'])
         return df_models
     
-    def accuracy_score_evaluation(self, n_splits:int=1) -> pd.DataFrame:
+    def accuracy_score_evaluation(self, n_splits:int=0) -> pd.DataFrame:
         """
         An evaluation function using accuracy as metric value
 
@@ -162,11 +162,11 @@ class ClassifierEvaluator:
 
 class RegressorEvaluator:
     def __init__(self, data:pd.DataFrame, target_column:str, models:list):
-        self.___data = data
+        self.__data = data
         self.__target_columns = target_column
-        self__models = models
+        self.__models = models
 
-    def r2_score_evaluation(self, n_splits:int=1) -> pd.DataFrame:
+    def r2_score_evaluation(self, n_splits:int=0) -> pd.DataFrame:
         """
         An evaluation function using r2 as metric value
 
@@ -204,7 +204,7 @@ class RegressorEvaluator:
         df_models = pd.DataFrame(list_of_series, columns = ['Model','R2 Score'])
         return df_models
     
-    def adjusted_r2_score_evaluation(self, n_splits:int=1) -> pd.DataFrame:
+    def adjusted_r2_score_evaluation(self, n_splits:int=0) -> pd.DataFrame:
         """
         An evaluation function using adjusted r2 as metric value
 
@@ -243,7 +243,7 @@ class RegressorEvaluator:
         return df_models
     
     
-    def mean_absolute_percentage_error_evaluation(self, n_splits):
+    def mean_absolute_percentage_error_evaluation(self, n_splits:int=0):
         """
         An evaluation function using mean absolute percentage error as metric value
 
@@ -281,7 +281,7 @@ class RegressorEvaluator:
         df_models = pd.DataFrame(list_of_series, columns = ['Model','MAPE'])
         return df_models
     
-    def mean_absolute_error_evaluation(self, n_splits):
+    def mean_absolute_error_evaluation(self, n_splits:int=0):
         """
         An evaluation function using mean absolute error as metric value
 
@@ -319,7 +319,7 @@ class RegressorEvaluator:
         df_models = pd.DataFrame(list_of_series, columns = ['Model','MAE'])
         return df_models
     
-    def mean_squared_error_evaluation(self, n_splits):
+    def mean_squared_error_evaluation(self, n_splits:int=0):
         """
         An evaluation function using mean squared error as metric value
 
