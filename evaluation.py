@@ -7,7 +7,7 @@ class ClassifierEvaluator:
         self.__target_columns = target_column
         self.__models = models
         
-    def f1_score_evaluation(self, n_splits:int) -> pd.DataFrame:
+    def f1_score_evaluation(self, n_splits:int=1) -> pd.DataFrame:
         """
         An evaluation function using f1 as metric value
 
@@ -36,7 +36,7 @@ class ClassifierEvaluator:
                 score = np.mean(scores)
                 list_of_series.append(pd.Series([model ,score], index=['Model','f1 Score']))
         else:
-            x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=42)
+            x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.30, random_state=42)
             for model in models:
                 model.fit(x_train, y_train)
                 y_pred = model.predict(x_test)
@@ -45,7 +45,7 @@ class ClassifierEvaluator:
         df_models = pd.DataFrame(list_of_series, columns = ['Model','f1 Score'])
         return df_models
     
-    def recall_score_evaluation(self, n_splits:int) -> pd.DataFrame:
+    def recall_score_evaluation(self, n_splits:int=1) -> pd.DataFrame:
         """
         An evaluation function using recall as metric value
 
@@ -74,7 +74,7 @@ class ClassifierEvaluator:
                 score = np.mean(scores)
                 list_of_series.append(pd.Series([model ,score], index=['Model','recall Score']))
         else:
-            x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=42)
+            x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.30, random_state=42)
             for model in models:
                 model.fit(x_train, y_train)
                 y_pred = model.predict(x_test)
@@ -83,7 +83,7 @@ class ClassifierEvaluator:
         df_models = pd.DataFrame(list_of_series, columns = ['Model','recall Score'])
         return df_models
     
-    def precision_score_evaluation(self, n_splits:int) -> pd.DataFrame:
+    def precision_score_evaluation(self, n_splits:int=1) -> pd.DataFrame:
         """
         An evaluation function using precision as metric value
 
@@ -112,7 +112,7 @@ class ClassifierEvaluator:
                 score = np.mean(scores)
                 list_of_series.append(pd.Series([model ,score], index=['Model','precision Score']))
         else:
-            x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=42)
+            x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.30, random_state=42)
             for model in models:
                 model.fit(x_train, y_train)
                 y_pred = model.predict(x_test)
@@ -121,7 +121,7 @@ class ClassifierEvaluator:
         df_models = pd.DataFrame(list_of_series, columns = ['Model','precision Score'])
         return df_models
     
-    def accuracy_score_evaluation(self, n_splits:int) -> pd.DataFrame:
+    def accuracy_score_evaluation(self, n_splits:int=1) -> pd.DataFrame:
         """
         An evaluation function using accuracy as metric value
 
@@ -150,7 +150,7 @@ class ClassifierEvaluator:
                 score = np.mean(scores)
                 list_of_series.append(pd.Series([model ,score], index=['Model','accuracy Score']))
         else:
-            x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=42)
+            x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.30, random_state=42)
             for model in models:
                 model.fit(x_train, y_train)
                 y_pred = model.predict(x_test)
@@ -166,7 +166,7 @@ class RegressorEvaluator:
         self.__target_columns = target_column
         self__models = models
 
-    def r2_score_evaluation(self, n_splits:int) -> pd.DataFrame:
+    def r2_score_evaluation(self, n_splits:int=1) -> pd.DataFrame:
         """
         An evaluation function using r2 as metric value
 
@@ -181,22 +181,30 @@ class RegressorEvaluator:
         models = self.__models
         x = data.drop(target_column, axis=1)
         y = data[target_column]
-        kfold = KFold(n_splits=n_splits)
         list_of_series = list()
-        for model in models:
-            scores = list()
-            for train_index, test_index in kfold.split(x):
-                x_train, x_test = x.iloc[train_index], x.iloc[test_index]
-                y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+        if n_splits !=0:
+            kfold = KFold(n_splits=n_splits)
+            for model in models:
+                scores = list()
+                for train_index, test_index in kfold.split(x):
+                    x_train, x_test = x.iloc[train_index], x.iloc[test_index]
+                    y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+                    model.fit(x_train, y_train)
+                    y_pred = model.predict(x_test)
+                    scores.append(r2_score(y_test, y_pred))
+                score = np.mean(scores)
+                list_of_series.append(pd.Series([model ,score], index=['Model','R2 Score']))
+        else:
+            x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.30, random_state=42)
+            for model in models:
                 model.fit(x_train, y_train)
                 y_pred = model.predict(x_test)
-                scores.append(r2_score(y_test, y_pred))
-            score = np.mean(scores)
-            list_of_series.append(pd.Series([model ,score], index=['Model','R2 Score']))
+                score = r2_score(y_test, y_pred)
+                list_of_series.append(pd.Series([model ,score], index=['Model','R2 Score']))
         df_models = pd.DataFrame(list_of_series, columns = ['Model','R2 Score'])
         return df_models
     
-    def adjusted_r2_score_evaluation(self, n_splits:int) -> pd.DataFrame:
+    def adjusted_r2_score_evaluation(self, n_splits:int=1) -> pd.DataFrame:
         """
         An evaluation function using adjusted r2 as metric value
 
@@ -211,19 +219,27 @@ class RegressorEvaluator:
         models = self.__models
         x = data.drop(target_column, axis=1)
         y = data[target_column]
-        kfold = KFold(n_splits=n_splits)
         list_of_series = list()
-        for model in models:
-            scores = list()
-            for train_index, test_index in kfold.split(x):
-                x_train, x_test = x.iloc[train_index], x.iloc[test_index]
-                y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+        if n_splits !=0:
+            kfold = KFold(n_splits=n_splits)
+            for model in models:
+                scores = list()
+                for train_index, test_index in kfold.split(x):
+                    x_train, x_test = x.iloc[train_index], x.iloc[test_index]
+                    y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+                    model.fit(x_train, y_train)
+                    y_pred = model.predict(x_test)
+                    scores.append(adjusted_r2_score(y_test, y_pred))
+                score = np.mean(scores)
+                list_of_series.append(pd.Series([model ,score], index=['Model','Adjusted R2 Score']))
+        else:
+            x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.30, random_state=42)
+            for model in models:
                 model.fit(x_train, y_train)
                 y_pred = model.predict(x_test)
-                scores.append(adjusted_r2_score(y_test, y_pred))
-            score = np.mean(scores)
-            list_of_series.append(pd.Series([model ,score], index=['Model','adjusted R2 Score']))
-        df_models = pd.DataFrame(list_of_series, columns = ['Model','adjusted R2 Score'])
+                score = adjusted_r2_score(y_test, y_pred)
+                list_of_series.append(pd.Series([model ,score], index=['Model','Adjusted R2 Score']))
+        df_models = pd.DataFrame(list_of_series, columns = ['Model','Adjusted R2 Score'])
         return df_models
     
     
@@ -242,18 +258,26 @@ class RegressorEvaluator:
         models = self.__models
         x = data.drop(target_column, axis=1)
         y = data[target_column]
-        kfold = KFold(n_splits=n_splits)
         list_of_series = list()
-        for model in models:
-            scores = list()
-            for train_index, test_index in kfold.split(x):
-                x_train, x_test = x.iloc[train_index], x.iloc[test_index]
-                y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+        if n_splits !=0:
+            kfold = KFold(n_splits=n_splits)
+            for model in models:
+                scores = list()
+                for train_index, test_index in kfold.split(x):
+                    x_train, x_test = x.iloc[train_index], x.iloc[test_index]
+                    y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+                    model.fit(x_train, y_train)
+                    y_pred = model.predict(x_test)
+                    scores.append(mean_absolute_percentage_error(y_test, y_pred))
+                score = np.mean(scores)
+                list_of_series.append(pd.Series([model ,score], index=['Model','MAPE']))
+        else:
+            x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.30, random_state=42)
+            for model in models:
                 model.fit(x_train, y_train)
                 y_pred = model.predict(x_test)
-                scores.append(mean_absolute_percentage_error(y_test, y_pred))
-            score = np.mean(scores)
-            list_of_series.append(pd.Series([model ,score], index=['Model','MAPE']))
+                score = mean_absolute_percentage_error(y_test, y_pred)
+                list_of_series.append(pd.Series([model ,score], index=['Model','MAPE']))
         df_models = pd.DataFrame(list_of_series, columns = ['Model','MAPE'])
         return df_models
     
@@ -272,18 +296,26 @@ class RegressorEvaluator:
         models = self.__models
         x = data.drop(target_column, axis=1)
         y = data[target_column]
-        kfold = KFold(n_splits=n_splits)
         list_of_series = list()
-        for model in models:
-            scores = list()
-            for train_index, test_index in kfold.split(x):
-                x_train, x_test = x.iloc[train_index], x.iloc[test_index]
-                y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+        if n_splits !=0:
+            kfold = KFold(n_splits=n_splits)
+            for model in models:
+                scores = list()
+                for train_index, test_index in kfold.split(x):
+                    x_train, x_test = x.iloc[train_index], x.iloc[test_index]
+                    y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+                    model.fit(x_train, y_train)
+                    y_pred = model.predict(x_test)
+                    scores.append(mean_absolute_error(y_test, y_pred))
+                score = np.mean(scores)
+                list_of_series.append(pd.Series([model ,score], index=['Model','MAE']))
+        else:
+            x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.30, random_state=42)
+            for model in models:
                 model.fit(x_train, y_train)
                 y_pred = model.predict(x_test)
-                scores.append(mean_absolute_error(y_test, y_pred))
-            score = np.mean(scores)
-            list_of_series.append(pd.Series([model ,score], index=['Model','MAE']))
+                score = mean_absolute_error(y_test, y_pred)
+                list_of_series.append(pd.Series([model ,score], index=['Model','MAE']))
         df_models = pd.DataFrame(list_of_series, columns = ['Model','MAE'])
         return df_models
     
@@ -302,17 +334,25 @@ class RegressorEvaluator:
         models = self.__models
         x = data.drop(target_column, axis=1)
         y = data[target_column]
-        kfold = KFold(n_splits=n_splits)
         list_of_series = list()
-        for model in models:
-            scores = list()
-            for train_index, test_index in kfold.split(x):
-                x_train, x_test = x.iloc[train_index], x.iloc[test_index]
-                y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+        if n_splits !=0:
+            kfold = KFold(n_splits=n_splits)
+            for model in models:
+                scores = list()
+                for train_index, test_index in kfold.split(x):
+                    x_train, x_test = x.iloc[train_index], x.iloc[test_index]
+                    y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+                    model.fit(x_train, y_train)
+                    y_pred = model.predict(x_test)
+                    scores.append(mean_squared_error(y_test, y_pred))
+                score = np.mean(scores)
+                list_of_series.append(pd.Series([model ,score], index=['Model','MSE']))
+        else:
+            x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.30, random_state=42)
+            for model in models:
                 model.fit(x_train, y_train)
                 y_pred = model.predict(x_test)
-                scores.append(mean_squared_error(y_test, y_pred))
-            score = np.mean(scores)
-            list_of_series.append(pd.Series([model ,score], index=['Model','MSE']))
+                score = mean_squared_error(y_test, y_pred)
+                list_of_series.append(pd.Series([model ,score], index=['Model','MSE']))
         df_models = pd.DataFrame(list_of_series, columns = ['Model','MSE'])
         return df_models
