@@ -1,8 +1,8 @@
-# UbiMle
+# MLE tools
 
 <h1>What is it?</h1>
 
-<p>UbiMle is a Python package from ubivis that helps to train and validate models faster, It aims to be the fundamental high-level building block for doing practical, real world model training and validation in Python.</p>
+<p>MLE tools is a Python package that helps to train and validate models faster, It aims to be the fundamental high-level building block for doing practical, real world model training and validation in Python.</p>
 
 <h1>Dependencies</h1>
 <li>Numpy</li>
