@@ -9,5 +9,5 @@ class MockModel:
     def __init__(self):
         pass
 
-    def fit(X_train, y_train):
+    def fit(self, X_train, y_train):
         print("mock_model trained")

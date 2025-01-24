@@ -41,7 +41,7 @@ class EvaluationPipeline(ABC):
             data (pd.DataFrame): The DataFrame to analyze.
         """
         if not isinstance(data, pd.DataFrame):
-            raise ValueError("data must be a pandas dataframe")
+            raise TypeError("data must be a pandas dataframe")
 
         if data.empty:
             raise ValueError("data can´t be empty, please insert a valid dataframe")
@@ -73,7 +73,7 @@ class EvaluationPipeline(ABC):
             target_column (str): The target column name
         """
         if not isinstance(target_column, str):
-            raise ValueError("target_column must be a string")
+            raise TypeError("target_column must be a string")
 
         if not self.check_if_target_column_is_in_data_columns(target_column):
             raise KeyError(
@@ -100,7 +100,7 @@ class EvaluationPipeline(ABC):
             kfold (bool): if the evaluater is using kfold or not.
         """
         if not isinstance(kfold, bool):
-            raise ValueError("kfold must be a boolean")
+            raise TypeError("kfold must be a boolean")
         self.__kfold = kfold
 
     def kfold_setter(self, kfold):
@@ -121,8 +121,8 @@ class EvaluationPipeline(ABC):
         Parameters:
             n_splits (Optional[int]): numbers of splits for kfold
         """
-        if not isinstance(n_splits, int) and not None:
-            raise ValueError("n_splits must be an integer")
+        if not isinstance(n_splits, int) and n_splits is not None:
+            raise TypeError("n_splits must be an integer")
         if self.__kfold:
             self.__n_splits = n_splits
         else:
@@ -146,11 +146,13 @@ class EvaluationPipeline(ABC):
         Parameters:
             models (list): list of models to train.
         """
-        if not isinstance(models, list) and not None:
-            raise ValueError("models must be a list with models to train")
-
+        if not isinstance(models, list) and models is not None:
+            raise TypeError("models must be a list with models to train")
         if not models:
             raise ValueError("models can´t be a empty list")
+        for model in models:
+            if not hasattr(model, "fit"):
+                raise AttributeError("the model has not fit method")
         self.__models = models
 
     def models_setter(self, models: list) -> None:
@@ -171,8 +173,8 @@ class EvaluationPipeline(ABC):
         Parameters:
             trained (bool): if the models are trained
         """
-        if not isinstance(trained, bool) and not None:
-            raise ValueError("trained must be a boolean")
+        if not isinstance(trained, bool):
+            raise TypeError("trained must be a boolean")
         self.__trained = trained
 
     def trained_setter(self, trained):
@@ -195,7 +197,7 @@ class EvaluationPipeline(ABC):
             report (pd.DataFrame): The DataFrame o metrics.
         """
         if not isinstance(report, pd.DataFrame) and report is not None:
-            raise ValueError("report must be a pandas dataframe")
+            raise TypeError("report must be a pandas dataframe")
         self.__report = report
 
     def report_setter(self, report: pd.DataFrame) -> None:
